@@ -1,0 +1,32 @@
+[project]
+name = "low_level_ds"
+version = "0.1.0"
+description = "Collection of low-level data structure implementations"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["lru_cache", "web_crawler"]
+
+[tool.hatch.envs.web_crawler]
+dependencies = [
+    "pytest>=7.0.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+]
+
+[tool.hatch.envs.web_crawler.scripts]
+test = "pytest web_crawler/tests"
+lint = "ruff check web_crawler"
+
+[tool.hatch.envs.lru_cache]
+dependencies = [
+    "pytest>=7.0.0",
+]
+
+[tool.hatch.envs.lru_cache.scripts]
+test = "pytest lru_cache/tests"
+lint = "ruff check lru_cache"

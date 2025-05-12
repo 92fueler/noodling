@@ -1,0 +1,1 @@
+Use `bisect` on a sorted list for faster retrieval

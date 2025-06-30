@@ -1,11 +1,13 @@
 from threading import Lock
 
+
 class Node:
     def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
         self.prev = None
         self.next = None
+
 
 class LRUCache:
     _instance = None
@@ -15,7 +17,9 @@ class LRUCache:
         with cls._lock:  # Ensure thread-safe singleton creation
             if cls._instance is None:
                 if capacity is None:
-                    raise ValueError("Capacity must be provided when creating the first instance")
+                    raise ValueError(
+                        "Capacity must be provided when creating the first instance"
+                    )
                 cls._instance = super().__new__(cls)
                 cls._instance._initialized = False
             elif capacity is not None and capacity != cls._instance.capacity:
@@ -24,12 +28,16 @@ class LRUCache:
 
     def __init__(self, capacity: int = None):
         with self._lock:  # Ensure thread-safe initialization
-            if not getattr(self, '_initialized', False):
+            if not getattr(self, "_initialized", False):
                 if capacity is None:
-                    raise ValueError("Capacity must be provided when creating the first instance")
+                    raise ValueError(
+                        "Capacity must be provided when creating the first instance"
+                    )
                 self.capacity = capacity
                 self.cache = {}
-                self.instance_lock = Lock()  # Instance level lock for thread-safe operations
+                self.instance_lock = (
+                    Lock()
+                )  # Instance level lock for thread-safe operations
 
                 # Initialize dummy head and tail nodes
                 self.head = Node()

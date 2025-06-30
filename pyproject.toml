@@ -1,5 +1,5 @@
 [project]
-name = "low_level_ds"
+name = "noodling"
 version = "0.1.0"
 description = "Collection of low-level data structure implementations"
 requires-python = ">=3.10"

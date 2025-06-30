@@ -1,60 +1,51 @@
-# Low Level Data Structures
+# Noodling
 
-This project contains multiple subprojects implementing various low-level data structures and algorithms.
+Practice interview questions in stealth.
 
-## Project Structure
-- `web_crawler/`: Web crawler implementation
-- `lru_cache/`: LRU Cache implementation with various approaches
-  - `basic_lru_cache.py`: Basic implementation using double linked list
-  - `singleton_lru_cache.py`: Thread-safe singleton implementation
-  - `tests/`: Test suite for both implementations
+## Quick Start
+
+### Bootstrap the Project
+
+Set up the development environment with one command:
+
+```bash
+./script/bootstrap
+```
+
+This script will:
+- Check for Python 3.10+ and uv installation
+- Install all dependencies
+- Set up the project in development mode
+- Show you available commands
+
+### Code Quality
+
+Use the lint script for formatting and linting:
+
+```bash
+# Format and lint everything
+./script/lint
+
+# Only format code
+./script/lint --format
+
+# Only check for issues
+./script/lint --lint
+
+# Auto-fix issues
+./script/lint --fix
+
+# Target specific package
+./script/lint lru_cache
+./script/lint --fix web_crawler
+```
+
 
 ## Development Setup
 
-This project uses `uv` for Python package management. Make sure you have `uv` installed.
+This project uses `uv` for Python package management.
 
-### Installing Dependencies
+### Prerequisites
 
-For web_crawler subproject:
-```bash
-uv pip install -e ".[web_crawler]"
-```
-
-For lru_cache subproject:
-```bash
-uv pip install -e ".[lru_cache]"
-```
-
-### Running Tests
-
-For web_crawler:
-```bash
-uv run pytest web_crawler/tests
-```
-
-For lru_cache:
-```bash
-# Run all tests
-cd lru_cache && uv run pytest tests/
-
-# Run specific tests
-cd lru_cache && uv run pytest tests/test_basic_lru_cache.py
-cd lru_cache && uv run pytest tests/test_singleton_lru_cache.py
-
-# Or from project root
-uv run pytest lru_cache/tests/
-uv run pytest lru_cache/tests/test_basic_lru_cache.py
-uv run pytest lru_cache/tests/test_singleton_lru_cache.py
-```
-
-### Running Linting
-
-For web_crawler:
-```bash
-uv run ruff check web_crawler
-```
-
-For lru_cache:
-```bash
-uv run ruff check lru_cache
-```
+- Python 3.10 or higher
+- uv package manager

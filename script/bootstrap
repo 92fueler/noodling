@@ -61,19 +61,14 @@ if [ -f "Brewfile" ] && [ "$(uname -s)" = "Darwin" ]; then
     }
 fi
 
-echo -e "==> ${GREEN}Installing Python dependencies with uv${NC}"
+echo -e "==> ${GREEN}Installing all Python dependencies with uv (shared and project-wide)...${NC}"
 uv sync
 
 echo -e "==> ${GREEN}Installing packages in development mode${NC}"
 uv pip install -e .
 
 echo -e "==> ${GREEN}Setting up development environment${NC}"
-echo -e "==> ${BLUE}Available commands:${NC}"
-echo -e "   ${YELLOW}uv run pytest lru_cache/tests/${NC} - Test lru_cache package"
-echo -e "   ${YELLOW}uv run pytest web_crawler/tests/${NC} - Test web_crawler package"
-echo -e "   ${YELLOW}uv run ruff check lru_cache${NC} - Lint lru_cache package"
-echo -e "   ${YELLOW}uv run ruff check web_crawler${NC} - Lint web_crawler package"
-
+echo -e "==> ${BLUE}All shared dependencies (pytest, ruff, requests, etc.) are now always installed for all subprojects.${NC}"
 echo -e "==> ${GREEN}Remember to commit your ${RED}uv.lock${GREEN} file${NC}"
 echo -e "==> ${GREEN}Bootstrap complete! 🚀${NC}"
 

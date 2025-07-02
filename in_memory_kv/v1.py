@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Union
+from typing import Dict, Union
 
 """
 - Level 1: support basic operations GET/SET/DELETE records
@@ -54,15 +54,21 @@ class BaseInMemoryKV:
         del self.db[key][field]
         return "true"
 
+
 class InMemoryKVLevel1(BaseInMemoryKV):
     pass  # Inherits all methods from BaseInMemoryKV
+
 
 class InMemoryKVLevel2(BaseInMemoryKV):
     def scan(self, key: str, prefix: str) -> Union[Dict[str, str], str]:
         if key not in self.db:
             return ""
         # Find all fields that start with the prefix
-        result = {field: value for field, value in self.db[key].items() if field.startswith(prefix)}
+        result = {
+            field: value
+            for field, value in self.db[key].items()
+            if field.startswith(prefix)
+        }
         if not result:
             return ""
         return result

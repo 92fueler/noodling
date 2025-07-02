@@ -1,10 +1,10 @@
-from typing import Dict
+from typing import Dict, Optional, Union
 
 """
-- support basic operations GET/SET/DELETE records
-- support scanning a specific record's fields based on a filter
-- support TTL configurations on database records
-- support backup and restore functionality
+- Level 1: support basic operations GET/SET/DELETE records
+- Level 2: support scanning a specific record's fields based on a filter
+- Level 3: support TTL configurations on database records
+- Level 4: support backup and restore functionality
 """
 """
 learning notes:
@@ -23,23 +23,21 @@ learning notes:
             # code to handle KeyError
         except Exception as e:
             # code to handle other exceptions
-
+4. if return type is type A or type B, use Union[A, B]
 """
 
 
-class InMemoryKVLevel1:
+class BaseInMemoryKV:
     def __init__(self):
         self.db = {}
 
     def set(self, key: str, field_value_pair: Dict[str, str]) -> str:
-        # if field exists, update the value of the field
-        # if field does not exist, add the field to the key
         if key not in self.db:
             self.db[key] = {}
         self.db[key].update(field_value_pair)
         return ""
 
-    def get(self, key: str, field: str) -> Dict[str, str]:
+    def get(self, key: str, field: str) -> str:
         if key not in self.db:
             print(f"Key {key} not found")
             return ""
@@ -55,3 +53,16 @@ class InMemoryKVLevel1:
             return "false"
         del self.db[key][field]
         return "true"
+
+class InMemoryKVLevel1(BaseInMemoryKV):
+    pass  # Inherits all methods from BaseInMemoryKV
+
+class InMemoryKVLevel2(BaseInMemoryKV):
+    def scan(self, key: str, prefix: str) -> Union[Dict[str, str], str]:
+        if key not in self.db:
+            return ""
+        # Find all fields that start with the prefix
+        result = {field: value for field, value in self.db[key].items() if field.startswith(prefix)}
+        if not result:
+            return ""
+        return result

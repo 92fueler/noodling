@@ -62,30 +62,30 @@ Learning notes:
    - bisect.insort_right(a, x)
    - bisect.insort(a, x) -> default is insort_right
 
-   arr = [1, 2, 2, 3]
+    arr = [1, 2, 2, 3]
     bisect.bisect_left(arr, 2)   # 1 — insert before first 2
     bisect.bisect_right(arr, 2)  # 3 — insert after last 2
 6. chr(127) is the last ASCII character
 7. bisect.bisect_right(a, x) returns the insertion index in a sorted list a
-  it's a sorted list, but here is a list of tuples like [(timestamp, value), ...]
-  so, we need to compare against a tuple of the same form.
-  Tuples compare lexicographically, so
-  - (3, 'z') < (4, 'a') True
-  - (3, 'z') < (3, 'zz') True
- So use the maximum possible string chr(127) to make sure
- it goes after all existing values with the same timestamp.
+    it's a sorted list, but here is a list of tuples like [(timestamp, value), ...]
+    so, we need to compare against a tuple of the same form.
+    Tuples compare lexicographically, so
+    - (3, 'z') < (4, 'a') True
+    - (3, 'z') < (3, 'zz') True
+    So use the maximum possible string chr(127) to make sure
+    it goes after all existing values with the same timestamp.
+    - (3, 'z') < (3, chr(127)) True
+    - (3, 'z') < (3, chr(127)) True
 """
-
-
 class TimeMap:
     """
     Hashmap + tuple + linear search
     - time complexity: O(n) for get and o(1) for set
     - space complexity: O(n) for the db
     """
-
     def __init__(self):
         self.db: Dict[str, List[Tuple[int, str]]] = {}
+
 
     def set(self, key: str, value: str, timestamp: int) -> None:
         """
@@ -96,6 +96,7 @@ class TimeMap:
             self.db[key] = []
         self.db[key].append((timestamp, value))
 
+
     def get(self, key: str, timestamp: int) -> str:
         if key not in self.db:
             return ""
@@ -104,14 +105,12 @@ class TimeMap:
                 return v
         return ""
 
-
 class TimeMap2:
     """
     Hashmap + hashmap + linear search
     - time complexity: O(1) for get and o(1) for set
     - space complexity: O(n) for the db
     """
-
     def __init__(self):
         self.db: Dict[str, Dict[int, str]] = {}
 
@@ -123,11 +122,10 @@ class TimeMap2:
     def get(self, key: str, timestamp: int) -> str:
         if key not in self.db:
             return ""
-        for t, v in reversed(self.db[key].items()):  # <- This is wrong!
+        for t, v in reversed(self.db[key].items()): # <- This is wrong!
             if t <= timestamp:
                 return v
         return ""
-
 
 class TimeMap3:
     """
@@ -135,7 +133,6 @@ class TimeMap3:
     - time complexity: O(logn) for get and o(1) for set
     - space complexity: O(n) for the db
     """
-
     def __init__(self):
         self.db: Dict[str, List[Tuple[int, str]]] = {}
 
@@ -162,14 +159,12 @@ class TimeMap3:
                 right = mid - 1
         return res
 
-
 class TimeMap4:
     """
     hashmap + sorted list/binary search
     - time complexity: O(logn) for get and o(1) for set
     - space complexity: O(n) for the db
     """
-
     def __init__(self):
         self.db: Dict[str, List[Tuple[int, str]]] = {}
 

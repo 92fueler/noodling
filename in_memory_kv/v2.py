@@ -1,6 +1,22 @@
 from typing import Dict, List, Tuple
 import bisect
 
+
+"""
+TreeMap Key-Value Store (Range-based Key-Value Store)
+
+TreeMap is Java's SortedMap implementation.
+- automatically keeps timestamps sorted without manual lists or bianry search
+- directly support range queries like floorKey, ceilingKey, subMap, etc.
+
+Using a TreeMap<Integer, String> for each key means timestamps are always sorted,
+and floorKey(t) always returns the largest timestamp <= t.  - implementing get operation
+in o(logn) time.
+
+python equivalent is using SortedDict or bisect module
+
+"""
+
 """
 https://leetcode.com/problems/time-based-key-value-store/
 Design a time-based key-value data structure that can store multiple values
@@ -77,15 +93,17 @@ Learning notes:
     - (3, 'z') < (3, chr(127)) True
     - (3, 'z') < (3, chr(127)) True
 """
+
+
 class TimeMap:
     """
     Hashmap + tuple + linear search
     - time complexity: O(n) for get and o(1) for set
     - space complexity: O(n) for the db
     """
+
     def __init__(self):
         self.db: Dict[str, List[Tuple[int, str]]] = {}
-
 
     def set(self, key: str, value: str, timestamp: int) -> None:
         """
@@ -96,7 +114,6 @@ class TimeMap:
             self.db[key] = []
         self.db[key].append((timestamp, value))
 
-
     def get(self, key: str, timestamp: int) -> str:
         if key not in self.db:
             return ""
@@ -105,12 +122,14 @@ class TimeMap:
                 return v
         return ""
 
+
 class TimeMap2:
     """
     Hashmap + hashmap + linear search
     - time complexity: O(1) for get and o(1) for set
     - space complexity: O(n) for the db
     """
+
     def __init__(self):
         self.db: Dict[str, Dict[int, str]] = {}
 
@@ -122,10 +141,11 @@ class TimeMap2:
     def get(self, key: str, timestamp: int) -> str:
         if key not in self.db:
             return ""
-        for t, v in reversed(self.db[key].items()): # <- This is wrong!
+        for t, v in reversed(self.db[key].items()):  # <- This is wrong!
             if t <= timestamp:
                 return v
         return ""
+
 
 class TimeMap3:
     """
@@ -133,6 +153,7 @@ class TimeMap3:
     - time complexity: O(logn) for get and o(1) for set
     - space complexity: O(n) for the db
     """
+
     def __init__(self):
         self.db: Dict[str, List[Tuple[int, str]]] = {}
 
@@ -148,7 +169,7 @@ class TimeMap3:
             return ""
         left, right = 0, len(self.db[key]) - 1
         res = ""
-        while left <= right:
+        while left <= right:  # <- Be cautious with infinite loop
             mid = (left + right) // 2
             if self.db[key][mid][0] == timestamp:
                 return self.db[key][mid][1]
@@ -159,12 +180,14 @@ class TimeMap3:
                 right = mid - 1
         return res
 
+
 class TimeMap4:
     """
     hashmap + sorted list/binary search
     - time complexity: O(logn) for get and o(1) for set
     - space complexity: O(n) for the db
     """
+
     def __init__(self):
         self.db: Dict[str, List[Tuple[int, str]]] = {}
 

@@ -41,6 +41,7 @@ htmlcov/
 .pytest_cache/
 .tox/
 .nox/
+.ruff_cache/
 
 # Project specific
 *.log

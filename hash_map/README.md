@@ -9,6 +9,3 @@ How to implement an ordered hash table?
 - hash table for fast lookup
 - doubly linked list  -> LRU cache
 
-
-
-

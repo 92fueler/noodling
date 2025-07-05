@@ -1,5 +1,4 @@
 from typing import Dict, Union
-from datetime import datetime
 
 """
 - Level 1: support basic operations GET/SET/DELETE records
@@ -12,7 +11,7 @@ learning notes:
 1. dict.update() a build-in method to update the dictionary with the key-value pairs
 2. two dicts comparison can use == operator, why:
     - dictionary is unordered, so equality doesn't depend on the order of the key-value pairs
-    - == checks if
+    - == operator checks if
         - both objects are objects
         - they have the same keys
         - for each key, the values are the same
@@ -80,8 +79,7 @@ class InMemoryKVLevel2(BaseInMemoryKV):
             return ""
         return result
 
-
-class InMemoryKVLevel3(BaseInMemoryKV):
+    # class InMemoryKVLevel3(BaseInMemoryKV):
     """
         Support the timeline of operations and TTL settings for records and fields.
         Each operation from the previous levels now have an alternative version
@@ -96,123 +94,3 @@ class InMemoryKVLevel3(BaseInMemoryKV):
     - `GET_AT<key><field><timestamp>` - the same as `GET <key><field>` , but with timestamp of the operation specified.
     - `SCAN_AT<key><prefix><timestamp>` - the same as `SCAN`, but with timestamp of the operation specified.
     """
-
-    def __init__(self):
-        super().__init__()
-        # Store operations as list of (timestamp, operation_type, field, value, ttl) tuples
-        # Operations are stored in chronological order (oldest first)
-        self.operations: Dict[str, list] = {}
-
-    def set_at(
-        self, key: str, field: str, value: str, timestamp: float, ttl: float
-    ) -> str:
-        """Set field-value pair with timestamp and TTL"""
-        if key not in self.operations:
-            self.operations[key] = []
-
-        # Add operation to the list (maintains chronological order)
-        self.operations[key].append(("SET", timestamp, field, value, ttl))
-        return ""
-
-    def get_at(self, key: str, field: str, timestamp: float) -> str:
-        """Get field value at specific timestamp, respecting TTL"""
-        if key not in self.operations:
-            return ""
-
-        # Iterate through operations in reverse order (newest first)
-        # This is efficient: O(1) per iteration, O(1) space
-        for op_type, op_timestamp, op_field, op_value, op_ttl in reversed(
-            self.operations[key]
-        ):
-            # Skip operations that happened after our query timestamp
-            if op_timestamp > timestamp:
-                continue
-
-            # If we found the field we're looking for
-            if op_field == field:
-                # Check if it's a SET operation
-                if op_type == "SET":
-                    # Calculate expiry time
-                    expiry = float("inf") if op_ttl == 0 else op_timestamp + op_ttl
-
-                    # Check if field has expired at query timestamp
-                    if timestamp <= expiry:
-                        return op_value
-                    else:
-                        return ""  # Field has expired
-                elif op_type == "DELETE":
-                    return ""  # Field was deleted
-
-                # If we found any operation for this field, we can stop
-                # (since we're going in reverse chronological order)
-                break
-
-        return ""
-
-    def delete_at(self, key: str, field: str, timestamp: float) -> str:
-        """Delete field at specific timestamp"""
-        if key not in self.operations:
-            return "false"
-
-        # Check if field exists and hasn't been deleted at this timestamp
-        current_value = self.get_at(key, field, timestamp)
-        if current_value == "":
-            return "false"  # Field doesn't exist or has expired
-
-        # Add DELETE operation
-        self.operations[key].append(("DELETE", timestamp, field, "", 0))
-        return "true"
-
-    def scan_at(
-        self, key: str, prefix: str, timestamp: float
-    ) -> Union[Dict[str, str], str]:
-        """Scan fields with prefix at specific timestamp, respecting TTL"""
-        if key not in self.operations:
-            return ""
-
-        # Track the latest value for each field at the given timestamp
-        field_values = {}
-        field_deleted = set()
-
-        # Iterate through operations in chronological order
-        for op_type, op_timestamp, op_field, op_value, op_ttl in self.operations[key]:
-            # Skip operations that happened after our query timestamp
-            if op_timestamp > timestamp:
-                continue
-
-            # Check if field matches prefix
-            if not op_field.startswith(prefix):
-                continue
-
-            if op_type == "SET":
-                # Calculate expiry time
-                expiry = float("inf") if op_ttl == 0 else op_timestamp + op_ttl
-
-                # Check if field has expired at query timestamp
-                if timestamp <= expiry:
-                    field_values[op_field] = op_value
-                    # Remove from deleted set if it was previously deleted
-                    field_deleted.discard(op_field)
-                else:
-                    # Field has expired, remove it
-                    field_values.pop(op_field, None)
-                    field_deleted.discard(op_field)
-
-            elif op_type == "DELETE":
-                field_deleted.add(op_field)
-                field_values.pop(op_field, None)
-
-        # Return only fields that weren't deleted
-        result = {
-            field: value
-            for field, value in field_values.items()
-            if field not in field_deleted
-        }
-
-        return result if result else ""
-
-    def get_current_timestamp(self) -> float:
-        """Get current timestamp for testing and operations"""
-        import time
-
-        return time.time()

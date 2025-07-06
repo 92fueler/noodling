@@ -87,10 +87,25 @@ class InMemoryKVLevel2(BaseInMemoryKV):
         Notes:
         - The timeline should always flow forward,
           so timestamps are guaranteed to be strictly increasing as operations as executed.
+
         - Newly introduced operations should be mixed up with operations defined
           in previous levels, but all prior functionality should still work.
-    - `SET_AT<key><field><value><timestamp><ttl>` - inserts `field-value` pair or updates the value of the `field` in the record associated with `key`.  Also sets its time-to-live after the `timestamp` to be `ttl` (both are represented as strings). The `ttl` is the amount of time that this `field-value` pair should exist in the database, meaning it will be available during the interval `[timestamp, timestamp + ttl]` . If `ttl = 0` the pair should always be available. This operation should return an empty string.
-    - `DELETE_AT<key><field><timestamp>` - the same as `DELETE<key><field>` , but with timestamp of the operation specified. Returns `"true"` if the field was deleted, and `"false"` otherwise.
-    - `GET_AT<key><field><timestamp>` - the same as `GET <key><field>` , but with timestamp of the operation specified.
-    - `SCAN_AT<key><prefix><timestamp>` - the same as `SCAN`, but with timestamp of the operation specified.
+
+        - `SET_AT<key><field><value><timestamp><ttl>` - inserts `field-value` pair
+        or updates the value of the `field` in the record associated with `key`.
+        Also sets its time-to-live after the `timestamp` to be `ttl`
+        (both are represented as strings).
+        The `ttl` is the amount of time that this `field-value` pair should exist in the database,
+        meaning it will be available during the interval `[timestamp, timestamp + ttl]` .
+        If `ttl = 0` the pair should always be available.
+        This operation should return an empty string.
+
+        - `DELETE_AT<key><field><timestamp>` - the same as `DELETE<key><field>` ,
+        but with timestamp of the operation specified.
+        Returns `"true"` if the field was deleted, and `"false"` otherwise.
+
+        - `GET_AT<key><field><timestamp>` - the same as `GET <key><field>` ,
+        but with timestamp of the operation specified.
+        - `SCAN_AT<key><prefix><timestamp>` - the same as `SCAN`,
+        but with timestamp of the operation specified.
     """

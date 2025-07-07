@@ -1,4 +1,4 @@
-from hit_counter.v2 import HitCounter
+from src.hit_counter.v2 import HitCounter
 
 
 def test_hit_counter():

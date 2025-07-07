@@ -15,7 +15,8 @@ SQL(String[] names, int[] columns)
 Creates the n tables.
 bool ins(String name, String[] row)
 Inserts row into the table name and returns true.
-If row.length does not match the expected number of columns, or name is not a valid table, returns false without any insertion.
+If row.length does not match the expected number of columns,
+or name is not a valid table, returns false without any insertion.
 void rmv(String name, int rowId)
 Removes the row rowId from the table name.
 If name is not a valid table or there is no row with id rowId, no removal is performed.
@@ -24,6 +25,7 @@ Returns the value of the cell at the specified rowId and columnId in the table n
 If name is not a valid table, or the cell (rowId, columnId) is invalid, returns "<null>".
 String[] exp(String name)
 Returns the rows present in the table name.
-If name is not a valid table, returns an empty array. Each row is represented as a string, with each cell value (including the row's id) separated by a ",".
+If name is not a valid table, returns an empty array. Each row is represented as a string,
+with each cell value (including the row's id) separated by a ",".
 
 """

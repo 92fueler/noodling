@@ -1,5 +1,5 @@
 import pytest
-from in_memory_kv.v1 import InMemoryKVLevel1, InMemoryKVLevel2
+from src.in_memory_kv.v1 import InMemoryKVLevel1, InMemoryKVLevel2
 
 
 @pytest.mark.parametrize("kv_class", [InMemoryKVLevel1, InMemoryKVLevel2])

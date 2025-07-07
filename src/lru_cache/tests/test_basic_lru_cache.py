@@ -1,4 +1,4 @@
-from ..basic_lru_cache import LRUCache
+from src.lru_cache.basic_lru_cache import LRUCache
 
 
 def test_basic_operations():

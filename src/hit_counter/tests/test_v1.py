@@ -1,5 +1,5 @@
 import pytest
-from hit_counter.v1 import HitCounter, HitCounterV2
+from src.hit_counter.v1 import HitCounter, HitCounterV2
 
 
 @pytest.mark.parametrize("hit_counter_class", [HitCounter, HitCounterV2])

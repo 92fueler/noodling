@@ -1,5 +1,5 @@
 import pytest
-from ..singleton_lru_cache import LRUCache
+from src.lru_cache.singleton_lru_cache import LRUCache
 import threading
 import time
 

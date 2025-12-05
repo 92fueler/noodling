@@ -4,6 +4,7 @@ import time
 import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.hash_map.thread_safe_hm import ThreadSafeHashMapV1
+
 """
 Thread Safety Testing Learning Notes
 ====================================
@@ -167,6 +168,7 @@ COMMON PATTERNS:
    ```
 
 """
+
 
 class TestThreadSafeHashMapV1:
     """Test suite for ThreadSafeHashMapV1 thread safety"""
@@ -774,7 +776,9 @@ class TestThreadSafeHashMapHybridApproach:
         get_results = []
         get_threads = []
         for i in range(3):
-            thread = threading.Thread(target=lambda tid=i: get_results.append(long_get_worker(tid)))
+            thread = threading.Thread(
+                target=lambda tid=i: get_results.append(long_get_worker(tid))
+            )
             get_threads.append(thread)
             thread.start()
 
@@ -846,6 +850,7 @@ class TestThreadSafeHashMapHybridApproach:
         # Coordinator thread to manage the test
         def coordinator():
             """Coordinates the test execution"""
+
             # Phase 1: Initialize data with ThreadPoolExecutor
             def init_worker(thread_id):
                 for i in range(50):
@@ -924,7 +929,9 @@ class TestThreadSafeHashMapHybridApproach:
         thread_times = []
         threads = []
         for i in range(5):
-            thread = threading.Thread(target=lambda tid=i: thread_times.append(thread_worker(tid)))
+            thread = threading.Thread(
+                target=lambda tid=i: thread_times.append(thread_worker(tid))
+            )
             threads.append(thread)
             thread.start()
 
@@ -938,7 +945,7 @@ class TestThreadSafeHashMapHybridApproach:
 
         # Both approaches should complete in reasonable time
         assert executor_total < 10  # Should complete within 10 seconds
-        assert thread_total < 10    # Should complete within 10 seconds
+        assert thread_total < 10  # Should complete within 10 seconds
 
         # Verify data integrity
         for i in range(5):

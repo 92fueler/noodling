@@ -1,6 +1,6 @@
 # Noodling
 
-Practice interview questions in stealth.
+Some interesting data modeling design problems
 
 ## Quick Start
 

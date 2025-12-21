@@ -14,7 +14,6 @@ bool addCar(int carType) Checks whether there is a parking space of carType for 
 
 
 class ParkingSystem:
-
     def __init__(self, big: int, medium: int, small: int):
         pass
 

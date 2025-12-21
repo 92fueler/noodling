@@ -15,3 +15,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["lru_cache", "web_crawler"]
+
+[tool.ruff]
+exclude = ["src/basic/**"]

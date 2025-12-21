@@ -11,40 +11,7 @@ NC='\033[0m' # No Color
 
 cd "$(dirname "$0")/.."
 
-# Check Python version (requires 3.10+)
-# Try different Python commands in order of preference
-python_cmd=""
-for cmd in "python3.10" "python3.11" "python3.12" "python3" "python"; do
-    if command -v "$cmd" &> /dev/null; then
-        python_cmd="$cmd"
-        break
-    fi
-done
-
-if [ -z "$python_cmd" ]; then
-    echo -e "==> ${RED}Error: No Python installation found${NC}"
-    echo -e "==> ${YELLOW}Please install Python 3.10 or higher${NC}"
-    echo -e "   You can use pyenv: pyenv install 3.10.0"
-    echo -e "   Or download from: https://www.python.org/downloads/"
-    exit 1
-fi
-
-python_version=$($python_cmd --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
-required_version="3.10"
-
-if [ "$(printf '%s\n' "$required_version" "$python_version" | sort -V | head -n1)" != "$required_version" ]; then
-    echo -e "==> ${RED}Error: Python 3.10+ is required${NC}"
-    echo -e "==> ${YELLOW}Current Python version: ${python_version} (from $python_cmd)${NC}"
-    echo -e "==> ${YELLOW}Please upgrade to Python 3.10 or higher${NC}"
-    echo -e "   You can use pyenv: pyenv install 3.10.0"
-    echo -e "   Or download from: https://www.python.org/downloads/"
-    echo -e "   Or use uv to manage Python versions: uv python install 3.10"
-    exit 1
-fi
-
-echo -e "==> ${GREEN}Python version check passed: ${python_version} (using $python_cmd)${NC}"
-
-# Check if uv is installed
+# Check if uv is installed first (since we use it for Python version management)
 if ! command -v uv &> /dev/null; then
     echo -e "==> ${RED}Error: uv is not installed${NC}"
     echo -e "==> ${YELLOW}Please install uv first:${NC}"
@@ -52,6 +19,53 @@ if ! command -v uv &> /dev/null; then
     echo -e "   or visit: https://docs.astral.sh/uv/getting-started/installation/"
     exit 1
 fi
+
+# Check Python version (requires 3.10+)
+# Prefer uv-managed Python if available, fall back to system Python
+python_cmd=""
+python_version=""
+
+# Try uv-managed Python first (this respects .python-version or pyproject.toml)
+if command -v uv &> /dev/null; then
+    if uv run python --version &> /dev/null; then
+        python_version=$(uv run python --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+        python_cmd="uv run python"
+    fi
+fi
+
+# Fall back to system Python if uv-managed Python is not available
+if [ -z "$python_cmd" ]; then
+    for cmd in "python3.12" "python3.11" "python3.10" "python3" "python"; do
+        if command -v "$cmd" &> /dev/null; then
+            python_cmd="$cmd"
+            python_version=$($python_cmd --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+            break
+        fi
+    done
+fi
+
+if [ -z "$python_cmd" ] || [ -z "$python_version" ]; then
+    echo -e "==> ${RED}Error: No Python installation found${NC}"
+    echo -e "==> ${YELLOW}Please install Python 3.10 or higher${NC}"
+    echo -e "   You can use uv: uv python install 3.11"
+    echo -e "   Or use pyenv: pyenv install 3.10.0"
+    echo -e "   Or download from: https://www.python.org/downloads/"
+    exit 1
+fi
+
+required_version="3.10"
+
+if [ "$(printf '%s\n' "$required_version" "$python_version" | sort -V | head -n1)" != "$required_version" ]; then
+    echo -e "==> ${RED}Error: Python 3.10+ is required${NC}"
+    echo -e "==> ${YELLOW}Current Python version: ${python_version} (from $python_cmd)${NC}"
+    echo -e "==> ${YELLOW}Please upgrade to Python 3.10 or higher${NC}"
+    echo -e "   You can use uv: uv python install 3.11"
+    echo -e "   Or use pyenv: pyenv install 3.10.0"
+    echo -e "   Or download from: https://www.python.org/downloads/"
+    exit 1
+fi
+
+echo -e "==> ${GREEN}Python version check passed: ${python_version} (using $python_cmd)${NC}"
 
 # Check for Brewfile on macOS
 if [ -f "Brewfile" ] && [ "$(uname -s)" = "Darwin" ]; then

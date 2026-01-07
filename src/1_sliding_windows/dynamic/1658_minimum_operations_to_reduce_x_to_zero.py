@@ -54,4 +54,3 @@ def test_min_operations(nums, x, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

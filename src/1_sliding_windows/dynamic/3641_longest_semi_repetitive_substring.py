@@ -3,7 +3,8 @@
 
 You are given a string s that consists of digits from 0 to 9.
 
-A string t is called semi-repetitive if there is at most one pair of consecutive same digits. For example, "0010", "002020", "0123", "2002", and "54944" are semi-repetitive while "00101022", and "1101234883" are not.
+A string t is called semi-repetitive if there is at most one pair of consecutive same digits.
+For example, "0010", "002020", "0123", "2002", and "54944" are semi-repetitive while "00101022", and "1101234883" are not.
 
 Return the length of the longest semi-repetitive substring of s.
 
@@ -29,7 +30,6 @@ Constraints:
 - s consists of digits.
 """
 
-from typing import List
 import pytest
 
 
@@ -59,4 +59,3 @@ def test_longest_semi_repetitive_substring(s, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

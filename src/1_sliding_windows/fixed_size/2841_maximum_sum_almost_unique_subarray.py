@@ -35,13 +35,14 @@ subarray of length k.
 """
 
 from typing import List
-import pytest 
+import pytest
 
 
 class Solution:
     def maxSum(self, nums: List[int], m: int, k: int) -> int:
         # Your code here
         pass
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

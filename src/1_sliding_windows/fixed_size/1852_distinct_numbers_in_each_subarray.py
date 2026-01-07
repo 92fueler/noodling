@@ -14,7 +14,8 @@ Output: [1,2,3,4]
 """
 
 from typing import List
-import pytest 
+import pytest
+
 
 class Solution:
     def distinctNumbers(self, nums: List[int], k: int) -> List[int]:
@@ -24,9 +25,9 @@ class Solution:
 @pytest.mark.parametrize(
     "nums, k, expected",
     [
-        ([1,2,3,2,2,1,2], 3, [3,2,2,2,3]),
-        ([1, 1, 1,1,2,3,4], 4, [1, 2, 3, 4])
-    ]
+        ([1, 2, 3, 2, 2, 1, 2], 3, [3, 2, 2, 2, 3]),
+        ([1, 1, 1, 1, 2, 3, 4], 4, [1, 2, 3, 4]),
+    ],
 )
 def test_distinct_numbers(nums, k, expected):
     s = Solution()

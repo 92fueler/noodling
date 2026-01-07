@@ -1,7 +1,8 @@
 """
 904. Fruit Into Baskets
 
-You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the i-th tree produces.
+You are visiting a farm that has a single row of fruit trees arranged from left to right.
+The trees are represented by an integer array fruits where fruits[i] is the type of fruit the i-th tree produces.
 
 You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:
 
@@ -33,12 +34,29 @@ Constraints:
 
 from typing import List
 import pytest
+from collections import defaultdict
 
 
 class Solution:
     def totalFruit(self, fruits: List[int]) -> int:
-        # Your code here
-        pass
+        hash_map = defaultdict(int)
+
+        left, right = 0, 0
+        max_length = 0
+
+        while right < len(fruits):
+            hash_map[fruits[right]] += 1
+
+            while len(hash_map) > 2:
+                hash_map[fruits[left]] -= 1
+                if hash_map[fruits[left]] == 0:
+                    del hash_map[fruits[left]]
+                left += 1
+
+            max_length = max(max_length, right - left + 1)
+            right += 1
+
+        return max_length
 
 
 @pytest.mark.parametrize(
@@ -61,4 +79,3 @@ def test_total_fruit(fruits, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

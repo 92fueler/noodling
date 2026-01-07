@@ -20,24 +20,26 @@ Note that averages are not integers.
 """
 
 from typing import List
-import pytest 
+import pytest
 
 
 class Solution:
     def numOfSubarrays(self, arr: List[int], k: int, threshold: int) -> int:
         pass
 
+
 @pytest.mark.parametrize(
     "arr, k, threshold, expected",
     [
         ([11, 13, 17, 23, 29, 31, 7, 5, 2, 3], 3, 5, 6),
-        ([2, 2, 2, 2, 5, 5, 5, 8], 3, 4, 3)
-    ]
+        ([2, 2, 2, 2, 5, 5, 5, 8], 3, 4, 3),
+    ],
 )
 def test_num_of_subarrays(arr, k, threshold, expected):
     s = Solution()
     result = s.numOfSubarrays(arr, k, threshold)
     assert result == expected, f"Expected: {expected}, got result: {result}"
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

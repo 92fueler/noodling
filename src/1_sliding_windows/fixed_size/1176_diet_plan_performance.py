@@ -37,6 +37,7 @@ Output: 0
 from typing import List
 import pytest
 
+
 class Solution:
     def dietPlanPerformance(
         self, calories: List[int], k: int, lower: int, upper: int
@@ -46,13 +47,13 @@ class Solution:
 
 @pytest.mark.parametrize(
     "calories, k, lower, upper, expected",
-    [([3, 2], 2, 0, 1, 1), 
-     ([6, 5, 0, 0], 2, 1, 5, 0)]
+    [([3, 2], 2, 0, 1, 1), ([6, 5, 0, 0], 2, 1, 5, 0)],
 )
 def test_diet_plan_performance(calories, k, lower, upper, expected):
     s = Solution()
     result = s.dietPlanPerformance(calories, k, lower, upper)
     assert result == expected, f"Expected {expected}, got {result}"
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

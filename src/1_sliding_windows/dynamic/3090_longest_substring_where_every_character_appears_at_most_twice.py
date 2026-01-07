@@ -23,25 +23,43 @@ Constraints:
 - s consists of lowercase English letters.
 """
 
-from typing import List
 import pytest
+from collections import defaultdict
 
 
 class Solution:
     def maximumLengthSubstring(self, s: str) -> int:
-        # Your code here
-        pass
+        hash_map = defaultdict(int)
+
+        left, right = 0, 0
+        max_length = 0
+
+        while right < len(s):
+            hash_map[s[right]] += 1
+
+            while hash_map[s[right]] > 2:
+                hash_map[s[left]] -= 1
+                left += 1
+
+            max_length = max(max_length, right - left + 1)
+            right += 1
+
+        return max_length
 
 
 @pytest.mark.parametrize(
     "s, expected",
     [
-        ("abcabcbb", 5),
-        ("aabbcc", 6),
-        ("aaabb", 4),
-        ("aaaa", 2),
-        ("abcde", 5),
-        ("ababab", 6),
+        ("abcabcbb", 6),  # "abcabc" - a:2, b:2, c:2
+        ("aabbcc", 6),  # "aabbcc" (entire string)
+        ("aaabb", 4),  # "aabb"
+        ("aaaa", 2),  # "aa"
+        ("abcde", 5),  # "abcde" (entire string)
+        ("ababab", 4),  # "abab"
+        ("aabbccdd", 8),  # "aabbccdd" (entire string)
+        ("aaabbbccc", 4),  # "aabb" or "bbcc" - max is 4, not 6!
+        ("a", 1),  # single character
+        ("aabbc", 5),  # "aabbc" (entire string)
     ],
 )
 def test_maximum_length_substring(s, expected):
@@ -53,4 +71,3 @@ def test_maximum_length_substring(s, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

@@ -34,25 +34,23 @@ answer is 3.
 """
 
 from typing import List
-import pytest 
+import pytest
 
 
 class Solution:
     def shareCandies(self, candies: List[int], k: int) -> int:
         pass
 
+
 @pytest.mark.parametrize(
     "candies, k, expected",
-    [
-        ([1,2,2,3,4,3], 3, 3),
-        ([2,2,2,2,3,3], 2, 2),
-        ([2,4,5], 0, 3)
-    ]
+    [([1, 2, 2, 3, 4, 3], 3, 3), ([2, 2, 2, 2, 3, 3], 2, 2), ([2, 4, 5], 0, 3)],
 )
 def test_share_candies(candies, k, expected):
     s = Solution()
     result = s.shareCandies(candies, k)
     assert result == expected, f"Expected: {expected}, got result: {result}"
-    
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

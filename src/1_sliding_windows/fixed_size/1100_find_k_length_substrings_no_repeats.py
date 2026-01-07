@@ -20,9 +20,11 @@ import pytest
 # approach 1: using set
 # approach 2: using hashmap
 
+
 class Solution:
     def numKLenSubstrNoRepeats(self, s: str, k: int) -> int:
         pass
+
 
 @pytest.mark.parametrize(
     "s, k, expected",

@@ -24,14 +24,35 @@ Constraints:
 - s consists of English letters, digits, symbols, and spaces.
 """
 
-from typing import List
 import pytest
+from collections import defaultdict
 
 
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        # Your code here
-        pass
+        """
+        valid window: contains only distinct characters
+        hash map: key: char, value: occurrence
+
+        right pointer slides onto the rightmost
+
+        """
+        hash_map = defaultdict(int)
+        left, right = 0, 0
+        max_length = 0
+
+        while right < len(s):
+            hash_map[s[right]] += 1
+
+            while hash_map[s[right]] > 1:
+                hash_map[s[left]] -= 1
+                left += 1
+
+            max_length = max(max_length, right - left + 1)
+
+            right += 1
+
+        return max_length
 
 
 @pytest.mark.parametrize(
@@ -55,4 +76,3 @@ def test_length_of_longest_substring(s, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

@@ -50,4 +50,3 @@ def test_longest_ones(nums, k, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

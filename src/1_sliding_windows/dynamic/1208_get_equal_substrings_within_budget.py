@@ -31,7 +31,6 @@ Constraints:
 - s and t consist of only lowercase English letters.
 """
 
-from typing import List
 import pytest
 
 
@@ -61,4 +60,3 @@ def test_equal_substring(s, t, maxCost, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

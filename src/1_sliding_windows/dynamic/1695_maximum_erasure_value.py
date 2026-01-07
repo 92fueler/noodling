@@ -51,4 +51,3 @@ def test_maximum_unique_subarray(nums, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

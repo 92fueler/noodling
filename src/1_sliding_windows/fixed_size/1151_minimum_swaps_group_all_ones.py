@@ -29,12 +29,11 @@ One possible solution that uses 3 swaps is [0,0,0,0,0,1,1,1,1,1,1].
 """
 
 from typing import List
-import pytest 
+import pytest
 
 
 class Solution:
     def minSwaps(self, data: List[int]) -> int:
-        # Your code here
         pass
 
 

@@ -22,6 +22,7 @@ Input: s = "leetcode", k = 3
 Output: 2
 Explanation: "lee", "eet", "etc", "tco", "cod", "ode" all contain 2 vowels.
 """
+
 import pytest
 
 
@@ -41,4 +42,3 @@ result = sol.maxVowels(s, k)
 print(result)
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

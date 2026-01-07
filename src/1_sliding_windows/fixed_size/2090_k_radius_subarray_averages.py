@@ -36,7 +36,7 @@ Output: [-1]
 """
 
 from typing import List
-import pytest 
+import pytest
 
 
 class Solution:

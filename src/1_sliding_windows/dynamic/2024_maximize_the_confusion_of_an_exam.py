@@ -36,7 +36,6 @@ Constraints:
 - 1 <= k <= n
 """
 
-from typing import List
 import pytest
 
 
@@ -65,4 +64,3 @@ def test_max_consecutive_answers(answerKey, k, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

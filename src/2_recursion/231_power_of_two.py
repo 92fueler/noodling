@@ -62,4 +62,3 @@ def test_is_power_of_two(n, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

@@ -46,24 +46,24 @@ def list_to_tree(arr):
     """Helper function to convert list representation to binary tree"""
     if not arr:
         return None
-    
+
     root = TreeNode(arr[0])
     queue = [root]
     i = 1
-    
+
     while queue and i < len(arr):
         node = queue.pop(0)
-        
+
         if i < len(arr) and arr[i] is not None:
             node.left = TreeNode(arr[i])
             queue.append(node.left)
         i += 1
-        
+
         if i < len(arr) and arr[i] is not None:
             node.right = TreeNode(arr[i])
             queue.append(node.right)
         i += 1
-    
+
     return root
 
 
@@ -96,4 +96,3 @@ def test_has_path_sum(root_list, targetSum, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

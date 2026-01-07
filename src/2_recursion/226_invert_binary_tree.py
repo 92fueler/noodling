@@ -48,24 +48,24 @@ def list_to_tree(arr):
     """Helper function to convert list representation to binary tree"""
     if not arr:
         return None
-    
+
     root = TreeNode(arr[0])
     queue = [root]
     i = 1
-    
+
     while queue and i < len(arr):
         node = queue.pop(0)
-        
+
         if i < len(arr) and arr[i] is not None:
             node.left = TreeNode(arr[i])
             queue.append(node.left)
         i += 1
-        
+
         if i < len(arr) and arr[i] is not None:
             node.right = TreeNode(arr[i])
             queue.append(node.right)
         i += 1
-    
+
     return root
 
 
@@ -73,10 +73,10 @@ def tree_to_list(root):
     """Helper function to convert binary tree to list representation"""
     if not root:
         return []
-    
+
     result = []
     queue = [root]
-    
+
     while queue:
         node = queue.pop(0)
         if node:
@@ -85,11 +85,11 @@ def tree_to_list(root):
             queue.append(node.right)
         else:
             result.append(None)
-    
+
     # Remove trailing None values
     while result and result[-1] is None:
         result.pop()
-    
+
     return result
 
 
@@ -121,4 +121,3 @@ def test_invert_tree(root_list, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

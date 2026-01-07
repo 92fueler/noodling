@@ -51,9 +51,10 @@ def test_climb_stairs(n, expected):
     """Test cases for climbing stairs"""
     sol = Solution()
     result = sol.climbStairs(n)
-    assert result == expected, f"Expected {expected} ways to climb {n} stairs, got {result}"
+    assert result == expected, (
+        f"Expected {expected} ways to climb {n} stairs, got {result}"
+    )
 
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

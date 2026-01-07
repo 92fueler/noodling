@@ -99,4 +99,3 @@ def test_merge_two_lists(list1, list2, expected):
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

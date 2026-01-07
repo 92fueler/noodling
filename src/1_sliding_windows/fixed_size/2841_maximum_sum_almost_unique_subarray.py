@@ -1,7 +1,6 @@
 """
 2841. Maximum Sum of Almost Unique Subarray
 
-Problem Statement:
 You are given an integer array nums and two integers m and k. You are allowed to
 choose a subarray of size k from nums. The score of the chosen subarray is the
 sum of its elements, but only if the subarray has at most m distinct elements.

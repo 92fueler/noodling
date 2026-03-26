@@ -71,8 +71,21 @@ class Solution:
     def mergeTwoLists(
         self, list1: Optional[ListNode], list2: Optional[ListNode]
     ) -> Optional[ListNode]:
-        # Your code here
-        pass
+        # Base cases: if one list is empty, return the other
+        if list1 is None:
+            return list2
+        if list2 is None:
+            return list1
+
+        # Recursive case: compare values and merge
+        if list1.val <= list2.val:
+            # list1's value is smaller or equal, so it should come first
+            list1.next = self.mergeTwoLists(list1.next, list2)
+            return list1
+        else:
+            # list2's value is smaller, so it should come first
+            list2.next = self.mergeTwoLists(list1, list2.next)
+            return list2
 
 
 @pytest.mark.parametrize(

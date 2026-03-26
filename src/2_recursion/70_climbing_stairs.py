@@ -28,9 +28,16 @@ import pytest
 
 
 class Solution:
+    def __init__(self):
+        self.cache = {1: 1, 2: 2}
+
     def climbStairs(self, n: int) -> int:
-        # Your code here
-        pass
+        if n in self.cache:
+            return self.cache[n]
+
+        result = self.climbStairs(n - 1) + self.climbStairs(n - 2)
+        self.cache[n] = result
+        return result
 
 
 @pytest.mark.parametrize(
@@ -51,9 +58,9 @@ def test_climb_stairs(n, expected):
     """Test cases for climbing stairs"""
     sol = Solution()
     result = sol.climbStairs(n)
-    assert result == expected, (
-        f"Expected {expected} ways to climb {n} stairs, got {result}"
-    )
+    assert (
+        result == expected
+    ), f"Expected {expected} ways to climb {n} stairs, got {result}"
 
 
 if __name__ == "__main__":

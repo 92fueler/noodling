@@ -613,9 +613,11 @@ def graph_stats(graph):
     nodes = len(graph)
     edges = sum(len(neighbors) for neighbors in graph.values())
     # For undirected graph, divide by 2
-    return nodes, edges // 2 if all(
-        (v in graph.get(u, []) for u in graph for v in graph[u])
-    ) else edges
+    return nodes, (
+        edges // 2
+        if all((v in graph.get(u, []) for u in graph for v in graph[u]))
+        else edges
+    )
 
 
 # Get all nodes
